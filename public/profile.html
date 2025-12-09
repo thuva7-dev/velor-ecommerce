@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Velor</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">VELOR</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/products">Products</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li class="cart-icon" onclick="window.location.href='/cart'">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span class="cart-count" style="display: none;">0</span>
+                </li>
+                <li class="auth-buttons">
+                    <span style="color: var(--secondary-gray);">Loading...</span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Profile Section -->
+    <section class="container" style="padding-top: 3rem;">
+        <h1 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem; font-weight: 300; letter-spacing: 3px;">My Profile</h1>
+        
+        <div class="form-container">
+            <form id="profileForm" onsubmit="event.preventDefault(); updateProfile();">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="profileName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="profileEmail" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Update Profile</button>
+            </form>
+        </div>
+
+        <!-- Orders Section -->
+        <div style="margin-top: 4rem;">
+            <h2 style="margin-bottom: 2rem; font-size: 1.8rem; font-weight: 300;">My Orders</h2>
+            <div id="ordersList">
+                <!-- Orders will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Velor. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/profile.js"></script>
+</body>
+</html>
+

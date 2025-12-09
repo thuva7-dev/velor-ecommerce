@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Velor</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">VELOR</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/products">Products</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li class="cart-icon" onclick="window.location.href='/cart'">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span class="cart-count" style="display: none;">0</span>
+                </li>
+                <li class="auth-buttons">
+                    <button class="btn btn-outline" onclick="openModal('loginModal')">Login</button>
+                    <button class="btn btn-primary" onclick="openModal('registerModal')">Register</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Products Section -->
+    <section class="container" style="padding-top: 3rem;">
+        <h1 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem; font-weight: 300; letter-spacing: 3px;">Our Collection</h1>
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be loaded here -->
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart" class="container" style="display: none; padding-top: 3rem;">
+        <h2 style="margin-bottom: 2rem;">Shopping Cart</h2>
+        <div id="cartItems">
+            <!-- Cart items will be loaded here -->
+        </div>
+        <div class="cart-total">
+            <p>Total: $<span id="cartTotal">0.00</span></p>
+            <button class="btn btn-primary" onclick="checkout()" style="margin-top: 1rem;">Checkout</button>
+        </div>
+    </section>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header">
+                <h2 id="modalProductName"></h2>
+                <button class="close-modal" onclick="closeModal('productModal')">&times;</button>
+            </div>
+            <div style="display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap;">
+                <div style="flex-shrink: 0; width: 300px;">
+                    <!-- Main Image -->
+                    <img id="modalProductImage" src="" alt="" style="width: 300px; height: 400px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <!-- Thumbnail Gallery -->
+                    <div id="productImageThumbnails" style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;"></div>
+                </div>
+                <div style="flex: 1; min-width: 300px;">
+                    <p id="modalProductDescription" style="margin-bottom: 1rem; color: var(--secondary-gray);"></p>
+                    <p id="modalProductMaterial" style="margin-bottom: 1rem; color: var(--secondary-gray); font-style: italic;"></p>
+                    <p id="modalProductPrice" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;"></p>
+                    <p id="modalProductStock" style="margin-bottom: 1.5rem;"></p>
+                    
+                    <!-- Size Selection -->
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Select Size</label>
+                        <div id="sizeOptions" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                            <!-- Size buttons will be generated here -->
+                        </div>
+                        <button type="button" id="customSizeBtn" class="btn btn-outline" onclick="toggleCustomSize()" style="margin-top: 0.5rem;">Customize Size</button>
+                    </div>
+
+                    <!-- Default Size Chart -->
+                    <div id="sizeChart" style="margin-bottom: 1.5rem; display: none;">
+                        <h4 style="margin-bottom: 0.5rem; font-size: 1rem;">Size Guide</h4>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                            <thead>
+                                <tr style="background: var(--light-gray);">
+                                    <th style="padding: 0.5rem; border: 1px solid var(--light-gray);">Size</th>
+                                    <th style="padding: 0.5rem; border: 1px solid var(--light-gray);">Chest (inches)</th>
+                                    <th style="padding: 0.5rem; border: 1px solid var(--light-gray);">Waist (inches)</th>
+                                    <th style="padding: 0.5rem; border: 1px solid var(--light-gray);">Length (inches)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">S</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">36-38</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">30-32</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">26-27</td></tr>
+                                <tr><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">M</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">38-40</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">32-34</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">27-28</td></tr>
+                                <tr><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">L</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">40-42</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">34-36</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">28-29</td></tr>
+                                <tr><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">XL</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">42-44</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">36-38</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">29-30</td></tr>
+                                <tr><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">XXL</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">44-46</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">38-40</td><td style="padding: 0.5rem; border: 1px solid var(--light-gray);">30-31</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Custom Size Form -->
+                    <div id="customSizeForm" style="display: none; margin-bottom: 1.5rem; padding: 1rem; background: var(--light-gray); border-radius: 8px;">
+                        <h4 style="margin-bottom: 1rem; font-size: 1rem;">Custom Measurements (in inches)</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.9rem;">Chest</label>
+                                <input type="number" id="customChest" step="0.1" min="0" placeholder="e.g., 38.5" style="width: 100%;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.9rem;">Waist</label>
+                                <input type="number" id="customWaist" step="0.1" min="0" placeholder="e.g., 32.5" style="width: 100%;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.9rem;">Length</label>
+                                <input type="number" id="customLength" step="0.1" min="0" placeholder="e.g., 27.5" style="width: 100%;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.9rem;">Shoulder</label>
+                                <input type="number" id="customShoulder" step="0.1" min="0" placeholder="e.g., 16.5" style="width: 100%;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.9rem;">Sleeve Length</label>
+                                <input type="number" id="customSleeve" step="0.1" min="0" placeholder="e.g., 24.5" style="width: 100%;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.9rem;">Hip</label>
+                                <input type="number" id="customHip" step="0.1" min="0" placeholder="e.g., 38.5" style="width: 100%;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label>Quantity</label>
+                        <input type="number" id="productQuantity" value="1" min="1" style="width: 100px;">
+                    </div>
+                    <button class="btn btn-primary" onclick="addToCartFromModal()" style="width: 100%;">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login</h2>
+                <button class="close-modal" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <form onsubmit="event.preventDefault(); login();">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Register</h2>
+                <button class="close-modal" onclick="closeModal('registerModal')">&times;</button>
+            </div>
+            <form onsubmit="event.preventDefault(); register();">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="registerPassword" required minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Velor. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/products.js"></script>
+</body>
+</html>
+
